@@ -1,5 +1,6 @@
 import pygame
 import sys
+import argparse
 
 # Constants
 WIDTH, HEIGHT = 800, 600
@@ -13,13 +14,22 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Two Player Game")
 
+# Parse command line arguments
+parser = argparse.ArgumentParser(description="Game")
+parser.add_argument("character", choices=["ice", "lava"], help="Selected character")
+args = parser.parse_args()
+
 # Load player images
-player1_image = pygame.image.load("image/น้ำแข็งใpng").convert_alpha()
-player2_image = pygame.image.load("image/ลาวา.png").convert_alpha()
+if args.character == "ice":
+    player1_image = pygame.image.load("image/น้ำแข็ง.png").convert_alpha()
+    player2_image = pygame.image.load("image/ลาวา.png").convert_alpha()
+else:
+    player1_image = pygame.image.load("image/ลาวา.png").convert_alpha()
+    player2_image = pygame.image.load("image/น้ำแข็ง.png").convert_alpha()
 
 # Scale images
-player1_image = pygame.transform.scale(player1_image, (50, 50))
-player2_image = pygame.transform.scale(player2_image, (50, 50))
+player1_image = pygame.transform.scale(player1_image, (100, 100))
+player2_image = pygame.transform.scale(player2_image, (100, 100))
 
 # Define the Player class
 class Player(pygame.sprite.Sprite):
