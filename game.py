@@ -14,6 +14,12 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Two Player Game")
 
+#background image
+background = pygame.image.load("image/1.png").convert_alpha()
+background = pygame.image.load("image/2.png").convert_alpha()
+background = pygame.image.load("image/3.png").convert_alpha()
+background = pygame.image.load("image/4.png").convert_alpha()
+
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="Game")
 parser.add_argument("character", choices=["ice", "lava"], help="Selected character")
@@ -90,7 +96,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-
+            
     # Update players
     players.update()
 
@@ -100,3 +106,4 @@ while True:
 
     pygame.display.flip()
     clock.tick(FPS)
+     
