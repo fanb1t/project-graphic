@@ -3,12 +3,19 @@ import pygame
 from src.entities import Door, Elevator, ElevatorButton, Key, Platform, Player
 
 
+PLAYER_IMAGE_BY_CHARACTER = {
+    "ice": "image/ตัวละคร/น้ำแข็ง.1.png",
+    "lava": "image/ตัวละคร/ลาวา.1.png",
+}
+
+
 class LevelFactory:
     # Factory Pattern: build level objects from plain level data.
     def __init__(self, asset_loader):
         self.assets = asset_loader
 
-    def create(self, level_data):
+    def create(self, level_data, selected_players=None):
+        selected_players = selected_players or {}
         platform_image = self.assets.image(level_data["platform_image"], alpha=True)
         hazard_image = None
         if level_data.get("hazard_image"):
@@ -18,12 +25,12 @@ class LevelFactory:
             "left": pygame.K_a,
             "right": pygame.K_d,
             "jump": pygame.K_w,
-        })
+        }, selected_players.get(1))
         player2 = self._create_player(level_data["player2"], {
             "left": pygame.K_LEFT,
             "right": pygame.K_RIGHT,
             "jump": pygame.K_UP,
-        })
+        }, selected_players.get(2))
 
         key_data = level_data["key"]
         key = Key(*key_data["pos"], self.assets.image(key_data["image"], (50, 50), alpha=True))
@@ -61,7 +68,7 @@ class LevelFactory:
             "buttons": buttons,
         }
 
-    def _create_player(self, player_data, controls):
-        image = self.assets.image(player_data["image"], (50, 50), alpha=True)
+    def _create_player(self, player_data, controls, selected_character=None):
+        image_path = PLAYER_IMAGE_BY_CHARACTER.get(selected_character, player_data["image"])
+        image = self.assets.image(image_path, (50, 50), alpha=True)
         return Player(*player_data["pos"], image, controls)
-

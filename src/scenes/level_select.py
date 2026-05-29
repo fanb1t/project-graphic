@@ -26,10 +26,13 @@ class LevelSelectScene(BaseScene):
                 self.state_manager.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if self.level_buttons[1].collidepoint(event.pos):
+                    self.app.sound.play("click")
                     self.state_manager.set_scene(LevelScene(self.app, LEVEL_1, next_level_data=LEVEL_2))
                 elif self.level_buttons[2].collidepoint(event.pos):
+                    self.app.sound.play("click")
                     self.state_manager.set_scene(LevelScene(self.app, LEVEL_2))
                 elif self.level_buttons[3].collidepoint(event.pos):
+                    self.app.sound.play("error")
                     print("Level 3 is not connected yet")
 
     def draw(self):
@@ -37,4 +40,3 @@ class LevelSelectScene(BaseScene):
         self.screen.blit(self.map_image, (0, 0))
         for rect in self.level_buttons.values():
             self.screen.blit(self.button_image, rect)
-

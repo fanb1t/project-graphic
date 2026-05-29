@@ -24,7 +24,7 @@ class LevelScene(BaseScene):
         self._load_level()
 
     def _load_level(self):
-        objects = self.factory.create(self.level_data)
+        objects = self.factory.create(self.level_data, self.app.selected_players)
         self.players = objects["players"]
         self.key = objects["key"]
         self.door = objects["door"]
@@ -43,7 +43,10 @@ class LevelScene(BaseScene):
         for player in self.players:
             player.update(self.platforms, self.elevators)
             if not player.has_key:
+                had_key = player.has_key
                 player.pick_up_key(self.key)
+                if not had_key and player.has_key:
+                    self.app.sound.play("key")
 
         self.key.update()
         self._check_hazards()
@@ -71,6 +74,7 @@ class LevelScene(BaseScene):
     def _check_hazards(self):
         for player in self.players:
             if pygame.sprite.spritecollideany(player, self.hazards):
+                self.app.sound.play("error")
                 self._show_message("Game Over", GAME_OVER_TEXT_COLOR)
                 self._load_level()
                 return
@@ -79,8 +83,10 @@ class LevelScene(BaseScene):
         for player in self.players:
             if self.door.can_enter(player):
                 if self.next_level_data:
+                    self.app.sound.play("confirm")
                     self.state_manager.set_scene(LevelScene(self.app, self.next_level_data))
                 else:
+                    self.app.sound.play("win")
                     self._show_message("Winner!", WIN_TEXT_COLOR)
                     self._load_level()
                 return
@@ -90,4 +96,3 @@ class LevelScene(BaseScene):
         self.screen.blit(text, text.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
         pygame.display.flip()
         pygame.time.delay(1200)
-

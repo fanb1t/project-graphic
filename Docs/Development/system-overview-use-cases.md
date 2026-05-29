@@ -78,17 +78,20 @@ Flow:
 1. ผู้เล่นคลิก `Play Game`
 2. ระบบเปลี่ยนไป `CharacterSelectScene`
 3. ผู้เล่นคลิกเลือก Ice หรือ Lava
-4. ระบบบันทึกค่าตัวละครที่เลือกไว้ใน `app.selected_character`
-5. ระบบเปลี่ยนไป `LevelSelectScene`
+4. ระบบแสดงปุ่มควบคุมของผู้เล่น 1 และผู้เล่น 2
+5. ผู้เล่นเลือกตัวละครให้ครบทั้ง 2 คน
+6. ผู้เล่นกด `Confirm`
+7. ระบบบันทึกค่าตัวละครที่เลือกไว้ใน `app.selected_players`
+8. ระบบเปลี่ยนไป `LevelSelectScene`
 
 ผลลัพธ์:
 
-- ระบบมีข้อมูลตัวละครที่ผู้เล่นเลือก
+- ระบบมีข้อมูลตัวละครของผู้เล่น 1 และผู้เล่น 2
 - ผู้เล่นเข้าสู่หน้าเลือกด่าน
 
 หมายเหตุ:
 
-ตอนนี้ตัวละครที่เลือกยังไม่ได้ส่งผลต่อ gameplay จริงมากนัก เพราะด่านยังสร้างผู้เล่น 2 ตัวตามข้อมูลใน `level_data.py` เป็นหลัก
+ตัวละครที่เลือกจะถูกส่งไปใช้ตอน `LevelFactory` สร้างผู้เล่นในด่าน
 
 ### 4. เลือกด่าน
 
@@ -376,7 +379,7 @@ stateDiagram-v2
     Instruction --> StartMenu: click OK
     StartMenu --> CharacterSelect: click Play Game
     CharacterSelect --> StartMenu: click Back
-    CharacterSelect --> LevelSelect: select character
+    CharacterSelect --> LevelSelect: select both characters and confirm
     LevelSelect --> Playing: select level
     Playing --> Playing: pick key / use elevator
     Playing --> GameOver: hit hazard

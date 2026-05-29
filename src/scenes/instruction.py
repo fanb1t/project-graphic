@@ -40,6 +40,7 @@ class InstructionScene(BaseScene):
             if event.type == pygame.QUIT:
                 self.state_manager.quit()
             elif self.ok_button.is_clicked(event):
+                self.app.sound.play("click")
                 self.state_manager.set_scene(StartMenuScene(self.app))
 
     def draw(self):
@@ -50,4 +51,3 @@ class InstructionScene(BaseScene):
             self.screen.blit(text, text.get_rect(center=(WIDTH // 2, y)))
             y += 55
         self.ok_button.draw(self.screen)
-

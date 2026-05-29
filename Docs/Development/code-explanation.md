@@ -87,7 +87,7 @@ main.py
 
 ### `character_select.py`
 
-มี class `CharacterSelectScene` สำหรับเลือกตัวละคร หลังเลือกแล้วจะไปหน้าเลือกด่าน
+มี class `CharacterSelectScene` สำหรับเลือกตัวละครของผู้เล่น 1 และผู้เล่น 2 แสดงปุ่มควบคุม และไปหน้าเลือกด่านหลังผู้เล่นกด `Confirm`
 
 ### `level_select.py`
 

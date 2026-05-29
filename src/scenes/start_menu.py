@@ -41,8 +41,10 @@ class StartMenuScene(BaseScene):
             if event.type == pygame.QUIT:
                 self.state_manager.quit()
             elif self.play_button.is_clicked(event):
+                self.app.sound.play("click")
                 self.state_manager.set_scene(CharacterSelectScene(self.app))
             elif self.instruction_button.is_clicked(event):
+                self.app.sound.play("click")
                 self.state_manager.set_scene(InstructionScene(self.app))
 
     def draw(self):
@@ -50,4 +52,3 @@ class StartMenuScene(BaseScene):
         self.screen.blit(self.logo, ((WIDTH - 600) // 2 + 8, (HEIGHT - 300) // 2 - 100))
         self.play_button.draw(self.screen)
         self.instruction_button.draw(self.screen)
-

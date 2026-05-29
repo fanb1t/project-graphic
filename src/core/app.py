@@ -4,6 +4,7 @@ import pygame
 
 from src.core.asset_loader import AssetLoader
 from src.core.settings import FPS, HEIGHT, TITLE, WIDTH
+from src.core.sound_manager import SoundManager
 from src.core.state_manager import StateManager
 from src.scenes.start_menu import StartMenuScene
 
@@ -17,9 +18,12 @@ class GameApp:
         self.clock = pygame.time.Clock()
         self.project_root = Path(__file__).resolve().parents[2]
         self.assets = AssetLoader(self.project_root)
+        self.sound = SoundManager()
         self.state_manager = StateManager()
         self.selected_character = None
+        self.selected_players = {1: None, 2: None}
         self.state_manager.set_scene(StartMenuScene(self))
+        self.sound.play("startup")
 
     def run(self):
         while self.state_manager.running:
@@ -31,4 +35,3 @@ class GameApp:
             self.clock.tick(FPS)
 
         pygame.quit()
-
