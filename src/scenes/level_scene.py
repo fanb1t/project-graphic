@@ -81,16 +81,14 @@ class LevelScene(BaseScene):
                 return
 
     def _check_door(self):
-        for player in self.players:
-            if self.door.can_enter(player):
-                if self.next_level_data:
-                    self.app.sound.play("confirm")
-                    self.state_manager.set_scene(LevelScene(self.app, self.next_level_data))
-                else:
-                    self.app.sound.play("win")
-                    self._show_message("Winner!", WIN_TEXT_COLOR)
-                    self._load_level()
-                return
+        if self.door.can_clear_level(self.players):
+            if self.next_level_data:
+                self.app.sound.play("confirm")
+                self.state_manager.set_scene(LevelScene(self.app, self.next_level_data))
+            else:
+                self.app.sound.play("win")
+                self._show_message("Winner!", WIN_TEXT_COLOR)
+                self._load_level()
 
     def _show_message(self, message, color):
         text = self.font.render(message, True, color)

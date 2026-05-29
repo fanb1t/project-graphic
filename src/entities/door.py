@@ -11,3 +11,7 @@ class Door(pygame.sprite.Sprite):
     def can_enter(self, player):
         return player.has_key and pygame.sprite.collide_rect(self, player)
 
+    def can_clear_level(self, players):
+        has_key = any(player.has_key for player in players)
+        all_players_at_door = all(pygame.sprite.collide_rect(self, player) for player in players)
+        return has_key and all_players_at_door

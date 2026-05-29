@@ -52,15 +52,15 @@ LEVEL_2 = {
     "name": "Level 2",
     "background": "image/ด่านที่2/Background.png",
     "player1": {
-        "pos": (500, HEIGHT - 200),
+        "pos": (720, HEIGHT - 100),
         "image": "image/ตัวละคร/น้ำแข็ง.1.png",
     },
     "player2": {
-        "pos": (700, HEIGHT - 200),
+        "pos": (800, HEIGHT - 100),
         "image": "image/ตัวละคร/ลาวา.1.png",
     },
     "key": {
-        "pos": (350, HEIGHT - 150),
+        "pos": (640, HEIGHT - 105),
         "image": "image/ด่านที่1/Image (2).png",
     },
     "door": {
@@ -70,13 +70,14 @@ LEVEL_2 = {
     "platform_image": "image/ด่านที่2/Tile_01.png",
     "hazard_image": None,
     "platforms": [
-        ((500, HEIGHT - 50), (750, 50)),
-        ((600, HEIGHT - 200), (250, 50)),
-        ((0, HEIGHT - 50), (400, 50)),
-        ((600, HEIGHT // 2 - 50), (300, 50)),
+        ((0, HEIGHT - 50), (1200, 50)),
+        ((780, HEIGHT - 165), (300, 35)),
+        ((430, HEIGHT - 280), (300, 35)),
+        ((780, HEIGHT - 395), (300, 35)),
+        ((350, HEIGHT - 430), (360, 35)),
+        ((0, HEIGHT - 430), (330, 35)),
     ],
     "hazards": [],
     "elevators": [],
     "buttons": [],
 }
-

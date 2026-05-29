@@ -32,6 +32,7 @@ class Player(pygame.sprite.Sprite):
             self.is_jumping = True
             self.velocity_y = self.jump_velocity
 
+        previous_rect = self.rect.copy()
         self.velocity_y += self.gravity
         self.rect.y += self.velocity_y
 
@@ -40,9 +41,9 @@ class Player(pygame.sprite.Sprite):
             self.is_jumping = False
             self.velocity_y = 0
 
-        self._handle_collision(platforms, elevators, "vertical", blockers)
+        self._handle_collision(platforms, elevators, "vertical", blockers, previous_rect)
 
-    def _handle_collision(self, platforms, elevators, direction, blockers=None):
+    def _handle_collision(self, platforms, elevators, direction, blockers=None, previous_rect=None):
         blockers = blockers or []
         # Treat the other player like a solid body so characters cannot pass through each other.
         for obj in list(platforms) + list(elevators) + list(blockers):
@@ -55,12 +56,11 @@ class Player(pygame.sprite.Sprite):
                 else:
                     self.rect.left = obj.rect.right
             else:
-                if self.velocity_y > 0 and self.rect.bottom <= obj.rect.top + 15:
+                was_above = previous_rect and previous_rect.bottom <= obj.rect.top
+                was_below = previous_rect and previous_rect.top >= obj.rect.bottom
+                if self.velocity_y > 0 and (was_above or self.rect.bottom <= obj.rect.top + 15):
                     self.rect.bottom = obj.rect.top
                     self.is_jumping = False
-                    self.velocity_y = 0
-                elif self.velocity_y < 0 and self.rect.top >= obj.rect.bottom - 15:
-                    self.rect.top = obj.rect.bottom
                     self.velocity_y = 0
 
     def pick_up_key(self, key):
