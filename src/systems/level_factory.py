@@ -1,6 +1,6 @@
 import pygame
 
-from src.entities import Door, Elevator, ElevatorButton, Key, Platform, Player
+from src.entities import Coin, Door, Elevator, ElevatorButton, Key, Platform, Player, Spring
 
 
 PLAYER_IMAGE_BY_CHARACTER = {
@@ -57,6 +57,19 @@ class LevelFactory:
             ElevatorButton(*item["pos"], *item["size"], platform_image)
             for item in level_data["buttons"]
         ])
+        coin_image = self.assets.image(level_data.get("coin_image", key_data["image"]), (32, 32), alpha=True)
+        coins = pygame.sprite.Group(*[
+            Coin(*pos, coin_image) for pos in level_data.get("coins", [])
+        ])
+        springs_data = level_data.get("springs", [])
+        spring_image = None
+        if springs_data:
+            spring_image = self.assets.image(level_data["spring_image"], (56, 42), alpha=True)
+        springs = pygame.sprite.Group(*[
+            Spring(*pos, spring_image, item.get("bounce_velocity", -17))
+            for item in springs_data
+            for pos in [item["pos"]]
+        ])
 
         return {
             "players": [player1, player2],
@@ -66,6 +79,8 @@ class LevelFactory:
             "hazards": hazards,
             "elevators": elevators,
             "buttons": buttons,
+            "coins": coins,
+            "springs": springs,
         }
 
     def _create_player(self, player_data, controls, selected_character=None):
