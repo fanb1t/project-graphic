@@ -37,6 +37,16 @@ class CharacterSelectScene(BaseScene):
             2: pygame.Rect(650, 150, 440, 450),
         }
         self.choice_rects = self._build_choice_rects()
+        self.clear_buttons = {
+            player_number: TextButton(
+                (panel.centerx - 55, panel.y + 405, 110, 38),
+                "Clear",
+                self.small_font,
+                (230, 220, 210),
+                (245, 190, 170),
+            )
+            for player_number, panel in self.player_panels.items()
+        }
         self.selections = dict(self.app.selected_players)
 
     def handle_events(self, events):
@@ -50,6 +60,8 @@ class CharacterSelectScene(BaseScene):
                 self.app.sound.play("click")
                 self.state_manager.set_scene(StartMenuScene(self.app))
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                if self._handle_clear_click(event):
+                    continue
                 self._handle_character_click(event.pos)
                 if self.confirm_button.is_clicked(event):
                     if self._can_confirm():
@@ -81,6 +93,11 @@ class CharacterSelectScene(BaseScene):
     def _handle_character_click(self, mouse_pos):
         for (player_number, character), rect in self.choice_rects.items():
             if rect.collidepoint(mouse_pos):
+                if self.selections.get(player_number) == character:
+                    self.selections[player_number] = None
+                    self.app.sound.play("click")
+                    return
+
                 other_player = 1 if player_number == 2 else 2
                 if self.selections.get(other_player) == character:
                     self.app.sound.play("error")
@@ -88,6 +105,14 @@ class CharacterSelectScene(BaseScene):
 
                 self.selections[player_number] = character
                 self.app.sound.play("select")
+
+    def _handle_clear_click(self, event):
+        for player_number, button in self.clear_buttons.items():
+            if button.is_clicked(event):
+                self.selections[player_number] = None
+                self.app.sound.play("click")
+                return True
+        return False
 
     def _draw_player_panel(self, player_number, panel):
         pygame.draw.rect(self.screen, (235, 246, 250), panel, border_radius=8)
@@ -110,6 +135,7 @@ class CharacterSelectScene(BaseScene):
         selected_label = f"Selected: {selected.title()}" if selected else "Selected: -"
         selected_text = self.small_font.render(selected_label, True, BLACK)
         self.screen.blit(selected_text, selected_text.get_rect(center=(panel.centerx, panel.y + 385)))
+        self.clear_buttons[player_number].draw(self.screen)
 
     def _draw_character_choice(self, player_number, character):
         rect = self.choice_rects[(player_number, character)]
