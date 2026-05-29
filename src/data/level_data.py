@@ -81,3 +81,34 @@ LEVEL_2 = {
     "elevators": [],
     "buttons": [],
 }
+
+LEVEL_3 = {
+    "name": "Level 3",
+    "background": "image/ด่านที่3/1.png",
+    "player1": {
+        "pos": (120, HEIGHT - 100),
+        "image": "image/ตัวละคร/น้ำแข็ง.1.png",
+    },
+    "player2": {
+        "pos": (200, HEIGHT - 100),
+        "image": "image/ตัวละคร/ลาวา.1.png",
+    },
+    "key": {
+        "pos": (600, HEIGHT - 105),
+        "image": "image/ด่านที่3/000_0045_coin.png",
+    },
+    "door": {
+        "pos": (950, HEIGHT - 250),
+        "image": "image/ด่านที่1/door.png",
+    },
+    "platform_image": "image/ด่านที่3/Tile_01.png",
+    "hazard_image": None,
+    "platforms": [
+        ((0, HEIGHT - 50), (1200, 50)),
+        ((420, HEIGHT - 150), (250, 35)),
+        ((760, HEIGHT - 250), (330, 35)),
+    ],
+    "hazards": [],
+    "elevators": [],
+    "buttons": [],
+}

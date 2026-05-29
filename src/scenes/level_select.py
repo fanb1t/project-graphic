@@ -23,7 +23,7 @@ class LevelSelectScene(BaseScene):
         self.hover_color = (255, 225, 120)
 
     def handle_events(self, events):
-        from src.data.level_data import LEVEL_1, LEVEL_2
+        from src.data.level_data import LEVEL_1, LEVEL_2, LEVEL_3
         from src.scenes.level_scene import LevelScene
 
         for event in events:
@@ -35,10 +35,10 @@ class LevelSelectScene(BaseScene):
                     self.state_manager.set_scene(LevelScene(self.app, LEVEL_1, next_level_data=LEVEL_2))
                 elif self.level_buttons[2].collidepoint(event.pos):
                     self.app.sound.play("click")
-                    self.state_manager.set_scene(LevelScene(self.app, LEVEL_2))
+                    self.state_manager.set_scene(LevelScene(self.app, LEVEL_2, next_level_data=LEVEL_3))
                 elif self.level_buttons[3].collidepoint(event.pos):
-                    self.app.sound.play("error")
-                    print("Level 3 is not connected yet")
+                    self.app.sound.play("click")
+                    self.state_manager.set_scene(LevelScene(self.app, LEVEL_3))
 
     def draw(self):
         mouse_pos = pygame.mouse.get_pos()
