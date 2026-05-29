@@ -17,16 +17,17 @@ class Player(pygame.sprite.Sprite):
         self.is_jumping = False
         self.has_key = False
 
-    def update(self, platforms, elevators=None):
+    def update(self, platforms, elevators=None, blockers=None):
         elevators = elevators or pygame.sprite.Group()
+        blockers = blockers or []
         keys = pygame.key.get_pressed()
 
         if keys[self.controls["left"]]:
             self.rect.x -= self.speed
-            self._handle_collision(platforms, elevators, "horizontal")
+            self._handle_collision(platforms, elevators, "horizontal", blockers)
         if keys[self.controls["right"]]:
             self.rect.x += self.speed
-            self._handle_collision(platforms, elevators, "horizontal")
+            self._handle_collision(platforms, elevators, "horizontal", blockers)
         if keys[self.controls["jump"]] and not self.is_jumping:
             self.is_jumping = True
             self.velocity_y = self.jump_velocity
@@ -39,10 +40,12 @@ class Player(pygame.sprite.Sprite):
             self.is_jumping = False
             self.velocity_y = 0
 
-        self._handle_collision(platforms, elevators, "vertical")
+        self._handle_collision(platforms, elevators, "vertical", blockers)
 
-    def _handle_collision(self, platforms, elevators, direction):
-        for obj in list(platforms) + list(elevators):
+    def _handle_collision(self, platforms, elevators, direction, blockers=None):
+        blockers = blockers or []
+        # Treat the other player like a solid body so characters cannot pass through each other.
+        for obj in list(platforms) + list(elevators) + list(blockers):
             if not pygame.sprite.collide_rect(self, obj):
                 continue
 
@@ -64,4 +67,3 @@ class Player(pygame.sprite.Sprite):
         if pygame.sprite.collide_rect(self, key):
             self.has_key = True
             key.follow(self)
-

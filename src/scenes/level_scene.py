@@ -41,7 +41,8 @@ class LevelScene(BaseScene):
     def update(self):
         self._update_buttons_and_elevators()
         for player in self.players:
-            player.update(self.platforms, self.elevators)
+            other_players = [other for other in self.players if other is not player]
+            player.update(self.platforms, self.elevators, other_players)
             if not player.has_key:
                 had_key = player.has_key
                 player.pick_up_key(self.key)
