@@ -1,7 +1,6 @@
 import pygame
 import sys
 from set_up import level1_set_up, WIDTH, HEIGHT, FPS, GAME_OVER_TEXT_COLOR
-import game_2
 
 # นำค่าจาก level1_set_up มาใช้ในเกม
 PLAYER1_START_POS = level1_set_up["PLAYER1_START_POS"]
@@ -150,6 +149,7 @@ def check_door_entry(door, player1, player2):
     """Check if either player can enter the door and trigger the next game level."""
     if door.check_entry(player1) or door.check_entry(player2):
         if player1.has_key or player2.has_key:
+            import game_2
             game_2.run_game2()
         
 def show_game_over(screen):

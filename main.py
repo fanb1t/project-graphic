@@ -5,9 +5,9 @@ import start_game
 class maingame :
     def __init__(self) :
        pygame.init()
-       self.screen = pygame.display.set_mode(1200,700)
+       self.screen = pygame.display.set_mode((1200, 700))
        pygame.display.set_caption("Poonny Moony") 
-       self.clock = pygame.time.clock()
+       self.clock = pygame.time.Clock()
        self.running = True
 
     def run(self):
