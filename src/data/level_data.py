@@ -85,6 +85,13 @@ LEVEL_2 = {
 LEVEL_3 = {
     "name": "Level 3",
     "background": "image/ด่านที่3/2.png",
+    "background_layers": [
+        "image/ด่านที่3/1.png",
+        "image/ด่านที่3/2.png",
+        "image/ด่านที่3/3.png",
+        "image/ด่านที่3/4.png",
+        "image/ด่านที่3/5.png",
+    ],
     "player1": {
         "pos": (120, HEIGHT - 100),
         "image": "image/ตัวละคร/น้ำแข็ง.1.png",

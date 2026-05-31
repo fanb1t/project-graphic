@@ -17,9 +17,10 @@ class AssetLoader:
         path = self.root_path / relative_path
         surface = pygame.image.load(str(path))
         surface = surface.convert_alpha() if alpha else surface.convert()
+        if not alpha:
+            surface.set_colorkey(None)
         if size:
             surface = pygame.transform.scale(surface, size)
 
         self._images[key] = surface
         return surface
-

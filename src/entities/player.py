@@ -1,6 +1,6 @@
 import pygame
 
-from src.core.settings import HEIGHT
+from src.core.settings import HEIGHT, WIDTH
 
 
 class Player(pygame.sprite.Sprite):
@@ -28,6 +28,7 @@ class Player(pygame.sprite.Sprite):
         if keys[self.controls["right"]]:
             self.rect.x += self.speed
             self._handle_collision(platforms, elevators, "horizontal", blockers)
+        self._keep_inside_screen()
         if keys[self.controls["jump"]] and not self.is_jumping:
             self.is_jumping = True
             self.velocity_y = self.jump_velocity
@@ -42,6 +43,7 @@ class Player(pygame.sprite.Sprite):
             self.velocity_y = 0
 
         self._handle_collision(platforms, elevators, "vertical", blockers, previous_rect)
+        self._keep_inside_screen()
 
     def _handle_collision(self, platforms, elevators, direction, blockers=None, previous_rect=None):
         blockers = blockers or []
@@ -67,3 +69,17 @@ class Player(pygame.sprite.Sprite):
         if pygame.sprite.collide_rect(self, key):
             self.has_key = True
             key.follow(self)
+
+    def _keep_inside_screen(self):
+        if self.rect.left < 0:
+            self.rect.left = 0
+        elif self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+
+        if self.rect.top < 0:
+            self.rect.top = 0
+            self.velocity_y = max(0, self.velocity_y)
+        elif self.rect.bottom > HEIGHT:
+            self.rect.bottom = HEIGHT
+            self.is_jumping = False
+            self.velocity_y = 0
