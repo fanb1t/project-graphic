@@ -1,6 +1,7 @@
 import pygame
 
 from src.core.settings import (
+    BLACK,
     FPS,
     GAME_OVER_TEXT_COLOR,
     HEIGHT,
@@ -19,7 +20,7 @@ class LevelScene(BaseScene):
         self.level_data = level_data
         self.next_level_data = next_level_data
         self.factory = LevelFactory(self.assets)
-        self.background = self.assets.image(level_data["background"], (WIDTH, HEIGHT), alpha=False)
+        self.backgrounds = self._load_backgrounds()
         self.font = pygame.font.Font(None, 74)
         self.ui_font = pygame.font.Font(None, 42)
         self._load_level()
@@ -66,7 +67,9 @@ class LevelScene(BaseScene):
         self._check_door()
 
     def draw(self):
-        self.screen.blit(self.background, (0, 0))
+        self.screen.fill(BLACK)
+        for background in self.backgrounds:
+            self.screen.blit(background, (0, 0))
         self.platforms.draw(self.screen)
         self.hazards.draw(self.screen)
         self.elevators.draw(self.screen)
@@ -152,3 +155,10 @@ class LevelScene(BaseScene):
         if self.time_limit is not None:
             timer_text = self.ui_font.render(f"Time {self._remaining_time()}", True, WHITE)
             self.screen.blit(timer_text, timer_text.get_rect(topright=(WIDTH - 24, 20)))
+
+    def _load_backgrounds(self):
+        paths = self.level_data.get("background_layers", [self.level_data["background"]])
+        return [
+            self.assets.image(path, (WIDTH, HEIGHT), alpha=index != 0)
+            for index, path in enumerate(paths)
+        ]
